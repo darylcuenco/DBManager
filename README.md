@@ -80,13 +80,13 @@ push: docker push darylcuenco/dbmanager-k8s
 
 restart pod:
 1.kubectl get deployment
-2.kubectl rollout restart deployment <deployment name>
+2.kubectl rollout restart deployment (deployment name)
 
 get IP : kubectl get nodes -o wide
 
-delete pod: kubectl delete pod <pod name>
+delete pod: kubectl delete pod (pod name)
 
-get logs: kubectl logs <podname> <-f>
+get logs: kubectl logs (podname) <-f>
 
 get svc: kubectl get svc
 
