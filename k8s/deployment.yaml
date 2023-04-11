@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbmanager-k8s
+spec:
+  selector:
+    matchLabels:
+      app: dbmanager-k8s
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: dbmanager-k8s
+    spec:
+      containers:
+        - name: dbmanager-k8s
+          image: darylcuenco/dbmanager-k8s
+          ports:
+            - containerPort: 3434
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: dbmanager-k8s
+# spec:
+#   selector:
+#     matchlabels:
+#       app: dbmanager-k8s
+#     replicas: 2
+#     template:
+#       metadata:
+#         labels:
+#           app: dbmanager-k8s
+#         spec:
+#           containers:
+#             - name: dbmanager-k8s
+#               image: darylcuenco/dbmanager-k8s
+#               ports:
+#                 - containerPort: 3434
