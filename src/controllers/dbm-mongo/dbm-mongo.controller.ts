@@ -17,7 +17,7 @@ export class DbmMongoController {
         res.send(result);
     }
 
-    @Post('updateById')
+    @Post(['updateById','upsert'])
     async updateById(@Req() req: Request, @Res() res: Response){
         const result = await this.svc.updateById(req.body)
         res.send(result);

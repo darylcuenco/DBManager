@@ -8,8 +8,15 @@ export class DbmMongoService {
 
     constructor(@InjectModel('DBManager') private readonly dbmModel: Model<DbmModel>){}
 
+
     async insert(data){
-        let resp : ResponseModel = null;
+        let resp : ResponseModel =  await this.insertData(data);
+        console.log("resp: " + resp);
+        return(resp);
+    } 
+
+    async insertData(data) : Promise<ResponseModel>{
+        let resp : ResponseModel = null
         try{
             const insertedData = new this.dbmModel({
                 data: data
@@ -21,25 +28,35 @@ export class DbmMongoService {
             resp = new ResponseModel(error,false);
             
         }
-        
-        console.log(resp);
-        return(resp);
-    } 
+        return resp;
+    }
 
     async updateById(data){
         let resp : ResponseModel = null;
 
         try{
-            let mongoData = await this.dbmModel.findById(data.id).exec();
-            const result = {
-                ...mongoData.data,
-                ...data
+            if(data.id){
+                let mongoData = await this.dbmModel.findById(data.id).exec();
+                console.log("mongoData: " + mongoData)
+                let id = data.id
+                delete data.id
+                const result = {
+                    ...mongoData.data,
+                    ...data
+                }
+                // delete result.data.id
+                mongoData.data = result;
+                mongoData.save();
+                resp = new ResponseModel({id: id, data: mongoData.data},true);
             }
-            mongoData.data = result;
-            mongoData.save();
-            resp = new ResponseModel({id: data.id, data: mongoData.data},true);
+            else{
+                console.log("upserting...")
+                resp = await this.insertData(data);
+            }
+            
         }
         catch(error){
+            console.log("error")
             resp = new ResponseModel(error,false);
         }
         return(resp);
