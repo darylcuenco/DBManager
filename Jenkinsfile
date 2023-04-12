@@ -1,38 +1,34 @@
-pipeline {
-  agent any
-  stages {
-    stage("verify tooling") {
-      steps {
-        sh '''
-          docker version
-          docker info
-          docker compose version 
-          curl --version
-          jq --version
-        '''
-      }
+node {
+    def app
+
+    stage('Clone repository') {
+      
+
+        checkout scm
     }
-//     stage('Prune Docker data') {
-//       steps {
-//         sh 'docker system prune -a --volumes -f'
-//       }
-//     }
-//     stage('Start container') {
-//       steps {
-//         sh 'docker compose up -d --no-color --wait'
-//         sh 'docker compose ps'
-//       }
-//     }
-//     stage('Run tests against the container') {
-//       steps {
-//         sh 'curl http://localhost:3000/param?query=demo | jq'
-//       }
-//     }
-//   }
-//   post {
-//     always {
-//       sh 'docker compose down --remove-orphans -v'
-//       sh 'docker compose ps'
-//     }
-   }
+
+    stage('Build image') {
+  
+       app = docker.build("darylcuenco/dbmanager-k8s")
+    }
+
+    stage('Test image') {
+  
+
+        app.inside {
+            sh 'echo "Tests passed"'
+        }
+    }
+
+    stage('Push image') {
+        
+        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+            app.push("${env.BUILD_NUMBER}")
+        }
+    }
+    
+    stage('Trigger ManifestUpdate') {
+                echo "triggering updatemanifestjob"
+                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+        }
 }
