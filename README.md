@@ -91,3 +91,5 @@ get logs: kubectl logs (podname) <-f>
 get svc: kubectl get svc
 
 get pod: kubectl get pod
+
+install jenkins: 1. kubectl apply -f jenkins.yaml 2. kubectl apply -f jenkins-service.yaml
