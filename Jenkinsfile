@@ -1,5 +1,9 @@
 node {
     def app
+    
+    agent {
+        docker { image 'node:16.13.1-alpine' }
+    }
 
     stage('Clone repository') {
       
