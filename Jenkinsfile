@@ -10,7 +10,6 @@ pipeline {
         }
     }
 }
-
 // node {
 //     def app
 
