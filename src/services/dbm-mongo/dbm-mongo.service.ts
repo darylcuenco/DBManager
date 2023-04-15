@@ -38,16 +38,19 @@ export class DbmMongoService {
         try{
             if(data.id){
                 let mongoData = await this.dbmModel.findById(data.id).exec();
-                let id = data.id
-                delete data.id
-                const result = {
-                    ...mongoData.data,
-                    ...data
+                if(mongoData.active){
+                    let id = data.id
+                    delete data.id
+                    const result = {
+                        ...mongoData.data,
+                        ...data
+                    }
+                    // delete result.data.id
+                    mongoData.data = result;
+                    mongoData.save();
+                    resp = new ResponseModel({id: id, data: mongoData.data},true);
                 }
-                // delete result.data.id
-                mongoData.data = result;
-                mongoData.save();
-                resp = new ResponseModel({id: id, data: mongoData.data},true);
+                resp = new ResponseModel("No Data Found.",false);
             }
             else{
                 console.log("upserting...")
