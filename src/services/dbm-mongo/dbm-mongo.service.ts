@@ -68,7 +68,13 @@ export class DbmMongoService {
         let result; 
         try{
             result = await this.dbmModel.findById(id).exec();
-            resp = new ResponseModel({id: result.id, data: result.data},true);
+            if(result.active){
+                resp = new ResponseModel({id: result.id, data: result.data},true);
+            }
+            else{
+                resp = new ResponseModel('No Data Found.',false);
+            throw new NotFoundException('No Data Found.')
+            }
         }
         catch(error){
             console.log("error:", error)
@@ -101,9 +107,14 @@ export class DbmMongoService {
         
         try{
             let mongoData = await this.dbmModel.findById(data.id).exec();
-            mongoData.active = false;
-            mongoData.save();
-            resp = new ResponseModel("data removed",true);
+            if(mongoData.active){
+                mongoData.active = false;
+                mongoData.save();
+                resp = new ResponseModel("data removed",true);
+            }
+            else{
+                resp = new ResponseModel("No Data Found.",false);
+            }
         }
         catch(error){
             console.log("error:", error)
