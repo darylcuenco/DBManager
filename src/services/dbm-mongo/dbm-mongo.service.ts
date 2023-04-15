@@ -50,7 +50,9 @@ export class DbmMongoService {
                     mongoData.save();
                     resp = new ResponseModel({id: id, data: mongoData.data},true);
                 }
-                resp = new ResponseModel("No Data Found.",false);
+                else{
+                    resp = new ResponseModel("No Data Found.",false);
+                }
             }
             else{
                 console.log("upserting...")
