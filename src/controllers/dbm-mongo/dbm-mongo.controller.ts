@@ -35,6 +35,12 @@ export class DbmMongoController {
         res.send(result);
     }
 
+    @Post('deleteById')
+    async deleteById(@Req() req: Request, @Res() res: Response){
+        const result = await this.svc.deleteById(req.body)
+        res.send(result);
+    }
+
     // @Post('executeQuery')
     // executeQuery(@Req() req: Request, @Res() res: Response){
     //     console.log(req.body);

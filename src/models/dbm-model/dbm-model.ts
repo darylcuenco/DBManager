@@ -7,13 +7,18 @@ export const DBSchema = new mongoose.Schema(
         data: {
             type: mongoose.Schema.Types.Mixed,
             required: true
-          }
+          },
+        active: {
+            type: Boolean,
+            required: true
+        }
     }
 )
 
 export interface DbmModel extends mongoose.Document{
     id: string,
-    data: any
+    data: any,
+    active: boolean
 }
 
 export class ResponseModel{

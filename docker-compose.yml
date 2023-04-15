@@ -1,0 +1,20 @@
+version: '3'
+services:
+
+  dbmanager:
+    build: .
+    # depends_on:
+    #   - db
+    ports:
+      - "3434:3434"
+    # environment:
+    #   COM_COUCHBASE_DBHOST: db
+    #   COM_COUCHBASE_USR: Administrator
+    #   COM_COUCHBASE_PW: password
+    #   PRUONE_CUSTOMER_BUCKET: pruone-data
+
+    #   COM_COUCHBASE_DBHOSTFE: db
+    #   COM_COUCHBASE_USRFE: Administrator
+    #   COM_COUCHBASE_PWFE: password
+    #   PRUONEFE_CUSTOMER_BUCKET: pruone-fe-data
+

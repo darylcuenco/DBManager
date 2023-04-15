@@ -9,7 +9,7 @@ const config : Config = new Config();
 @Module({
   imports: [MongooseModule
     .forRoot(config.connStr),
-    MongooseModule.forFeature([{name:'DBManager',schema: DBSchema}])
+    MongooseModule.forFeature([{name:'DBManagerSchema',schema: DBSchema}])
   ],
   controllers: [DbmMongoController],
   providers: [DbmMongoService],

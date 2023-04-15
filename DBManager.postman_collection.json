@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4fa25784-4972-4df5-a27f-483f27eb99de",
+		"_postman_id": "f89218e9-a28c-434a-b122-2163e505d6c1",
 		"name": "DBManager",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "9783979"
@@ -189,6 +189,37 @@
 					"path": [
 						"dbm-mongo",
 						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete by ID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"643a600afac5eb04d33cf2f4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "188.166.239.213:31967/dbm-mongo/deleteById",
+					"host": [
+						"188",
+						"166",
+						"239",
+						"213"
+					],
+					"port": "31967",
+					"path": [
+						"dbm-mongo",
+						"deleteById"
 					]
 				}
 			},

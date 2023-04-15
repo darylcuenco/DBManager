@@ -6,12 +6,11 @@ import { DbmModel, ResponseModel } from 'src/models/dbm-model/dbm-model';
 @Injectable()
 export class DbmMongoService {
 
-    constructor(@InjectModel('DBManager') private readonly dbmModel: Model<DbmModel>){}
+    constructor(@InjectModel('DBManagerSchema') private readonly dbmModel: Model<DbmModel>){}
 
 
     async insert(data){
         let resp : ResponseModel =  await this.insertData(data);
-        console.log("resp: " + resp);
         return(resp);
     } 
 
@@ -19,12 +18,14 @@ export class DbmMongoService {
         let resp : ResponseModel = null
         try{
             const insertedData = new this.dbmModel({
-                data: data
+                data: data,
+                active: true
             })
             const result = await insertedData.save()
-            resp = new ResponseModel({id: result.id, data: result.data},true);
+            resp = new ResponseModel({id: result.id, data: result.data, active: result.active},true);
         }
         catch(error){
+            console.log("error:", error)
             resp = new ResponseModel(error,false);
             
         }
@@ -37,7 +38,6 @@ export class DbmMongoService {
         try{
             if(data.id){
                 let mongoData = await this.dbmModel.findById(data.id).exec();
-                console.log("mongoData: " + mongoData)
                 let id = data.id
                 delete data.id
                 const result = {
@@ -56,7 +56,7 @@ export class DbmMongoService {
             
         }
         catch(error){
-            console.log("error")
+            console.log("error:", error)
             resp = new ResponseModel(error,false);
         }
         return(resp);
@@ -71,6 +71,7 @@ export class DbmMongoService {
             resp = new ResponseModel({id: result.id, data: result.data},true);
         }
         catch(error){
+            console.log("error:", error)
             resp = new ResponseModel(error,false);
             throw new NotFoundException('No Data Found.')
         }
@@ -80,16 +81,34 @@ export class DbmMongoService {
     async findAll(){
         let resp : ResponseModel = null;
         try{
-            const result = await this.dbmModel.find().exec();
+            const result = await this.dbmModel.find({active:true}).exec();
             resp = new ResponseModel(result.map((o) =>( {
                 id: o.id,
-                data: o.data
+                data: o.data,
+                active: o.active
             })),true);
         }
         catch(error){
+            console.log("error:", error)
             resp = new ResponseModel(error,false);
         }
         
+        return(resp);
+    }
+
+    async deleteById(data){
+        let resp : ResponseModel = null;
+        
+        try{
+            let mongoData = await this.dbmModel.findById(data.id).exec();
+            mongoData.active = false;
+            mongoData.save();
+            resp = new ResponseModel("data removed",true);
+        }
+        catch(error){
+            console.log("error:", error)
+            resp = new ResponseModel(error,false);
+        }
         return(resp);
     }
 

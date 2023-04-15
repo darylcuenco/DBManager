@@ -74,6 +74,12 @@ Nest is [MIT licensed](LICENSE).
 
 ## kubectl/docker cheat sheet
 
+get ip locally: docker inspect (container id)
+
+build and run locally: docker compose up --build -d
+
+shutdown container: docker compose down
+
 build: docker build -t darylcuenco/dbmanager-k8s
 
 push: docker push darylcuenco/dbmanager-k8s
