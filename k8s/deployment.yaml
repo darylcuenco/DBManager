@@ -15,6 +15,9 @@ spec:
       containers:
         - name: dbmanager-k8s
           image: darylcuenco/dbmanager-k8s
+          env:
+            - name: DB_CONN_STR
+              value: mongodb+srv://admin:D3SEx5kCudrOWDlR@dbmanager.hszctwp.mongodb.net/?retryWrites=true&w=majority
           ports:
             - containerPort: 3434
 # apiVersion: apps/v1
