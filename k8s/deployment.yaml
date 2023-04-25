@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: dbmanager-k8s
-          image: darylcuenco/dbmanager-k8s
+          image: darylcuenco/dbmanager-k8s:1.0.2
           env:
             - name: DB_CONN_STR
               value: mongodb+srv://admin:D3SEx5kCudrOWDlR@dbmanager.hszctwp.mongodb.net/?retryWrites=true&w=majority

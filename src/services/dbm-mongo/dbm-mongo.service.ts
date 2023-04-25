@@ -38,7 +38,7 @@ export class DbmMongoService {
         try{
             if(data.id){
                 let mongoData = await this.dbmModel.findById(data.id).exec();
-                if(mongoData.active){
+                if(mongoData && mongoData.active){
                     let id = data.id
                     delete data.id
                     const result = {
@@ -112,7 +112,7 @@ export class DbmMongoService {
         
         try{
             let mongoData = await this.dbmModel.findById(data.id).exec();
-            if(mongoData.active){
+            if(mongoData && mongoData.active){
                 mongoData.active = false;
                 mongoData.save();
                 resp = new ResponseModel("data removed",true);
